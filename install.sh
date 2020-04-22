@@ -1,6 +1,7 @@
 #!/bin/bash
 
-USAGE="Usage: $0 [-i install_dir] [-p prog_name] file_name"
+THIS_PROG=$( basename $0 )
+USAGE="Usage: $THIS_PROG [-i install_dir] [-p prog_name] file_name"
 
 ## ARGUMENTS
 ##############################
@@ -43,10 +44,17 @@ if [ ! -d "$INSTALL_DIR" ]; then
   exit 1
 fi
 
+FILE_NAME=$( readlink -f $1 )
+
+if [ ! -f "$FILE_NAME" ]; then
+  echo "${0}: error: $FILE_NAME not found ..."
+  exit 1
+fi
+
+
 ## MAIN
 ##############################
 
-FILE_NAME=$( readlink -f $1 )
 
 BASE_NAME=$( basename ${FILE_NAME%%.*} )
 PROG_NAME=${PROG_NAME:-$BASE_NAME}

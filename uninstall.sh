@@ -1,9 +1,10 @@
 #!/bin/bash
 
-USAGE="Usage: $0 prog_name"
+THIS_PROG=$( basename $0 )
+USAGE="Usage: $THIS_PROG [-i install_dir] prog_name"
 
 ## ARGUMENTS
-##############################
+########################################
 
 # Default arguments
 INSTALL_DIR=~/.local/bin/
@@ -29,7 +30,7 @@ PROG_NAME=$1
 TARGET="$INSTALL_DIR"/$PROG_NAME
 
 ## ASSERTIONS
-##############################
+########################################
 
 if [ $# -lt 1 ]; then
   echo $USAGE
@@ -42,7 +43,7 @@ if [ ! -f "$TARGET" ]; then
 fi
 
 ## MAIN
-##############################
+########################################
 
 if rm -f "$TARGET"; then
   echo "Successfully uninstalled ${PROG_NAME}!"
