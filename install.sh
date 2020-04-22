@@ -3,6 +3,19 @@
 THIS_PROG=$( basename $0 )
 USAGE="Usage: $THIS_PROG [-i install_dir] [-p prog_name] file_name"
 
+Help() {
+  # Function to display help at command line
+  echo $USAGE
+  echo
+  echo "Options:"
+  echo "  -h, --help                Print this help."
+  echo "  -i, --install-dir=DIR     Directory program is installed in."
+  echo "  -p, --prog-name=NAME      Name to install program as."
+  echo
+  echo "  file_name                 Name of file to install"
+  echo
+}
+
 ## ARGUMENTS
 ##############################
 
@@ -11,22 +24,25 @@ USAGE="Usage: $THIS_PROG [-i install_dir] [-p prog_name] file_name"
 INSTALL_DIR=~/.local/bin/
 # FILE_NAME=/home/tyler/scripts/check-battery/check-battery.sh
 
+for arg in "$@"; do
+  shift
+  case "$arg" in
+    "--help")         set -- "$@" "-h" ;;
+    "--install-dir")  set -- "$@" "-i" ;;
+    "--prog-name")    set -- "$@" "-p" ;;
+    "--*")            "Invalid option: ${arg}"; exit 1;;
+    *)                set -- "$@" "$arg"
+  esac
+done
+
 # Command-line arguments
-while getopts ":f:i:p:" opt; do
+OPTIND=1
+while getopts ":hf:i:p:" opt; do
   case $opt in
-    h)  # Help
-      echo $USAGE
-      exit 1
-      ;;
-    i)  # Installation directory
-      INSTALL_DIR=$( readlink -f $OPTARG )
-      ;;
-    p)  # Program name
-      PROG_NAME=$OPTARG
-      ;;
-    \?) # Default
-      echo "Invalid option: -$OPTARG" >&2
-      ;;
+    h) Help; exit 1 ;;
+    i) INSTALL_DIR=$( readlink -f $OPTARG ) ;;
+    p) PROG_NAME=$OPTARG ;;
+    \?) echo "Invalid option: -$OPTARG" >&2 ;;
   esac
 done
 shift $((OPTIND-1))
