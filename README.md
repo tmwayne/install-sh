@@ -1,7 +1,7 @@
 # Install-sh
 
 Install and uninstall executables into an installation directory
-with ease. This is useful primarily for shell scripts you've written
+with ease. This is useful for shell scripts you've written
 that you'd like to be able to call from anywhere.
 
 ## Installation
@@ -26,7 +26,7 @@ using the base name of the file path.
 
     install-sh /path/to/some-program.sh
 
-This will install under the name `some-program`
+will install under the name `some-program`
 
 To uninstall a package, simply provide the program name.
 
