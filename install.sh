@@ -116,7 +116,7 @@ else
 fi
 
 if [ "$successful_install" == y ]; then
-  echo "Successfully installed ${PROG_NAME}!"
+  echo "Successfully installed $PROG_NAME!"
   mv "$TMP" "$TARGET"
 else
   echo "$THIS_PROG: error: failed to install $PROG_NAME ..." >&2
