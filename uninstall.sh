@@ -16,10 +16,10 @@ Help() {
   echo $USAGE
   echo
   echo "Options:"
-  echo "  -h                  Print this help."
-  echo "  -i install_dir      Directory program is installed in."
+  echo "  -h, --help                Print this help."
+  echo "  -i, --install-dir=DIR     Directory program is installed in."
   echo
-  echo "     prog_name        Name of file to uninstall"
+  echo "  prog_name                 Name of file to uninstall"
 }
 
 ## ARGUMENTS
@@ -28,19 +28,23 @@ Help() {
 # Default arguments
 INSTALL_DIR=~/.local/bin/
 
+for arg in "$@"; do
+  shift
+  case "$arg" in
+    "--help")         set -- "$@" "-h" ;;
+    "--install-dir")  set -- "$@" "-i" ;;
+    "--*")            "Invalid option: ${arg}"; exit 1;;
+    *)                set -- "$@" "$arg"
+  esac
+done
+
 # Command-line arguments
-while getopts ":hf:i:p:" opt; do
+OPTIND=1
+while getopts ":hcf:i:p:" opt; do
   case $opt in
-    h)  # Help
-      Help
-      exit 1
-      ;;
-    i)  # Installation directory
-      INSTALL_DIR=$( readlink -f $OPTARG )
-      ;;
-    \?) # Default
-      echo "Invalid option: -$OPTARG" >&2
-      ;;
+    h) Help; exit 1 ;;
+    i) INSTALL_DIR=$( readlink -f $OPTARG ) ;;
+    \?) echo "Invalid option: -$OPTARG" >&2 ;;
   esac
 done
 shift $((OPTIND-1))

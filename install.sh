@@ -28,9 +28,7 @@ Help() {
 ##############################
 
 # Default arguments
-# PROG_NAME=check-battery
 INSTALL_DIR=~/.local/bin/
-# FILE_NAME=/home/tyler/scripts/check-battery/check-battery.sh
 
 for arg in "$@"; do
   shift
