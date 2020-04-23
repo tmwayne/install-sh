@@ -5,7 +5,7 @@
 # Uninstall shell scripts
 # Companion script to install-sh
 #
-# Tyler Wayne 2020
+# Tyler Wayne (2020)
 #
 
 THIS_PROG=$( basename $0 )
@@ -33,7 +33,8 @@ for arg in "$@"; do
   case "$arg" in
     "--help")         set -- "$@" "-h" ;;
     "--install-dir")  set -- "$@" "-i" ;;
-    "--*")            "Invalid option: ${arg}"; exit 1;;
+    "--*")            echo "$THIS_PROG: error: invalid option: ${arg}" >&2
+                      echo $USAGE; exit 1 ;;
     *)                set -- "$@" "$arg"
   esac
 done
@@ -44,7 +45,8 @@ while getopts ":hcf:i:p:" opt; do
   case $opt in
     h) Help; exit 1 ;;
     i) INSTALL_DIR=$( readlink -f $OPTARG ) ;;
-    \?) echo "Invalid option: -$OPTARG" >&2 ;;
+    \?) echo "$THIS_PROG: error: invalid option: -$OPTARG" >&2
+        echo $USAGE; exit 1 ;;
   esac
 done
 shift $((OPTIND-1))
@@ -61,7 +63,7 @@ if [ $# -lt 1 ]; then
 fi
 
 if [ ! -f "$TARGET" ]; then
-  echo "${0}: error: $PROG_NAME not found in $INSTALL_DIR ..."
+  echo "${0}: error: $PROG_NAME not found in $INSTALL_DIR ..." >&2
   exit 1
 fi
 
@@ -71,5 +73,5 @@ fi
 if rm -f "$TARGET"; then
   echo "Successfully uninstalled ${PROG_NAME}!"
 else
-  echo "$0: error: unable to uninstall $PROG_NAME ..."
+  echo "$0: error: unable to uninstall $PROG_NAME ..." >&2
 fi

@@ -5,7 +5,7 @@
 # Install shell scripts easily into a local bin folder.
 # Can install via both hard copy and symlink
 #
-# Tyler Wayne 2020
+# Tyler Wayne (2020)
 #
 
 THIS_PROG=$( basename $0 )
@@ -37,7 +37,8 @@ for arg in "$@"; do
     "--copy")         set -- "$@" "-c" ;;
     "--install-dir")  set -- "$@" "-i" ;;
     "--prog-name")    set -- "$@" "-p" ;;
-    "--*")            "Invalid option: ${arg}"; exit 1;;
+    "--*")            echo "$THIS_PROG: error: invalid option: ${arg}" >&2
+                      echo $USAGE; exit 1 ;;
     *)                set -- "$@" "$arg"
   esac
 done
@@ -50,7 +51,8 @@ while getopts ":hcf:i:p:" opt; do
     c) COPY=y ;;
     i) INSTALL_DIR=$( readlink -f $OPTARG ) ;;
     p) PROG_NAME=$OPTARG ;;
-    \?) echo "Invalid option: -$OPTARG" >&2 ;;
+    \?) echo "$THIS_PROG: error: invalid option: -$OPTARG" >&2
+        echo $USAGE; exit 1 ;;
   esac
 done
 shift $((OPTIND-1))
@@ -69,12 +71,12 @@ if [ $# -lt 1 ]; then
 fi
 
 if [ ! -d "$INSTALL_DIR" ]; then
-  echo "${0}: error: target directory $INSTALL_DIR does not exist ..."
+  echo "$THIS_PROG: error: target directory $INSTALL_DIR does not exist ..." >&2
   exit 1
 fi
 
 if [ ! -f "$FILE_NAME" ]; then
-  echo "${0}: error: $FILE_NAME not found ..."
+  echo "$THIS_PROG: error: $FILE_NAME not found ..." >&2
   exit 1
 fi
 
@@ -96,7 +98,7 @@ if [ "$target_exists" == "y" ]; then
 fi
 
 if [ "$overwrite" != "y" ]; then
-  echo "${0}: error: aborting without overwriting ..."
+  echo "$THIS_PROG: error: aborting without overwriting ..." >&2
   exit 1
 fi
 
@@ -111,7 +113,7 @@ if [ "$successful_install" == "y" ]; then
   echo "Successfully installed ${PROG_NAME}!"
   mv "$TARGET".new "$TARGET"
 else
-  echo "${0}: error: failed to install $PROG_NAME ..."
+  echo "$THIS_PROG: error: failed to install $PROG_NAME ..." >&2
   rm -f "$TARGET".new
   exit 1
 fi
