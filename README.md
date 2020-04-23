@@ -1,7 +1,8 @@
 # Install-sh
 
-Install and uninstall user created executables into installation directory
-with ease.
+Install and uninstall executables into an installation directory
+with ease. This is useful primarily for shell scripts you've written
+that you'd like to be able to call from anywhere.
 
 ## Installation
 
@@ -12,7 +13,7 @@ following commands.
     ./install.sh -n install-sh install.sh
 
 This will create a symlink in your `~/.local/bin` directory to `install.sh`.
-It will name the program name `install-sh`.  Then install `uninstall.sh`
+It will name the program `install-sh`.  Then install `uninstall.sh`
 
     install-sh -n uninstall-sh uninstall.sh
 
@@ -23,7 +24,7 @@ using the base name of the file path.
 
     install-sh /path/to/some-program.sh
 
-This will install uninstall.sh as `some-program`
+This will install under the name `some-program`
 
 To uninstall a package, simply provide the program name.
 
