@@ -14,13 +14,12 @@ USAGE="Usage: $THIS_PROG [-i install_dir] prog_name"
 Help() {
   # Function to display help at command line
   echo $USAGE
+  echo "Uninstalls program from local bin directory."
   echo
   echo "Options:"
   echo "  -h, --help                Print this help."
   echo "  -i, --install-dir=DIR     Directory program is installed in."
   echo "                            Defaults to ~/.local/bin"
-  echo
-  echo "  prog_name                 Name of file to uninstall"
 }
 
 ## ARGUMENTS

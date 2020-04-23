@@ -14,6 +14,7 @@ USAGE="Usage: $THIS_PROG [-i install_dir] [-p prog_name] file_name"
 Help() {
   # Function to display help at command line
   echo $USAGE
+  echo "Installs program into local bin directory as copy or symlink."
   echo
   echo "Options:"
   echo "  -c, --copy                Install a copy instead of a symlink."
@@ -22,8 +23,6 @@ Help() {
   echo "                            Defaults to ~/.local/bin"
   echo "  -p, --prog-name=NAME      Name to install program as."
   echo "                            Defaults to base name of file_name."
-  echo
-  echo "  file_name                 Name of file to install"
 }
 
 ## ARGUMENTS
