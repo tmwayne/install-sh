@@ -33,13 +33,14 @@ INSTALL_DIR=~/.local/bin/
 for arg in "$@"; do
   shift
   case "$arg" in
-    "--help")         set -- "$@" "-h" ;;
-    "--copy")         set -- "$@" "-c" ;;
-    "--install-dir")  set -- "$@" "-i" ;;
-    "--prog-name")    set -- "$@" "-p" ;;
-    "--*")            echo "$THIS_PROG: error: invalid option: ${arg}" >&2
-                      echo $USAGE; exit 1 ;;
-    *)                set -- "$@" "$arg"
+    --help)         set -- "$@" "-h" ;;
+    --copy)         set -- "$@" "-c" ;;
+    --install-dir)  set -- "$@" "-i" ;;
+    --prog-name)    set -- "$@" "-p" ;;
+    --*)            echo "$THIS_PROG: unrecognized option '$arg'" >&2
+                    echo "Try '$THIS_PROG --help' for more information."
+                    exit 2 ;;
+    *)              set -- "$@" "$arg"
   esac
 done
 
@@ -47,12 +48,13 @@ done
 OPTIND=1
 while getopts ":hcf:i:p:" opt; do
   case $opt in
-    h) Help; exit 1 ;;
+    h) Help; exit ;;
     c) COPY=y ;;
     i) INSTALL_DIR=$( readlink -f $OPTARG ) ;;
     p) PROG_NAME=$OPTARG ;;
-    \?) echo "$THIS_PROG: error: invalid option: -$OPTARG" >&2
-        echo $USAGE; exit 1 ;;
+    \?) echo "$THIS_PROG: unrecognized option '-$OPTARG'" >&2
+        echo "Try '$THIS_PROG --help' for more information."
+        exit 2 ;;
   esac
 done
 shift $((OPTIND-1))
