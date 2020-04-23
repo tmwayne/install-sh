@@ -3,6 +3,18 @@
 THIS_PROG=$( basename $0 )
 USAGE="Usage: $THIS_PROG [-i install_dir] prog_name"
 
+Help() {
+  # Function to display help at command line
+  echo $USAGE
+  echo
+  echo "Options:"
+  echo "  -h                  Print this help."
+  echo "  -i install_dir      Directory program is installed in."
+  echo
+  echo "     prog_name        Name of file to uninstall"
+  echo
+}
+
 ## ARGUMENTS
 ########################################
 
@@ -10,10 +22,10 @@ USAGE="Usage: $THIS_PROG [-i install_dir] prog_name"
 INSTALL_DIR=~/.local/bin/
 
 # Command-line arguments
-while getopts ":f:i:p:" opt; do
+while getopts ":hf:i:p:" opt; do
   case $opt in
     h)  # Help
-      echo $USAGE
+      Help
       exit 1
       ;;
     i)  # Installation directory
