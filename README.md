@@ -13,7 +13,9 @@ following commands.
     ./install.sh -n install-sh install.sh
 
 This will create a symlink in your `~/.local/bin` directory to `install.sh`.
-It will name the program `install-sh`.  Then install `uninstall.sh`
+It will name the program `install-sh`.  
+
+Then install `uninstall.sh`.
 
     install-sh -n uninstall-sh uninstall.sh
 
