@@ -47,13 +47,18 @@ OPTIND=1
 while getopts ":hcf:i:p:" opt; do
   case $opt in
     h) Help; exit 1 ;;
-    c) COPY=true ;;
+    c) COPY=y ;;
     i) INSTALL_DIR=$( readlink -f $OPTARG ) ;;
     p) PROG_NAME=$OPTARG ;;
     \?) echo "Invalid option: -$OPTARG" >&2 ;;
   esac
 done
 shift $((OPTIND-1))
+
+FILE_NAME=$( readlink -f "$1" )
+
+BASE_NAME=$( basename "${FILE_NAME%%.*}" )
+PROG_NAME=${PROG_NAME:-$BASE_NAME}
 
 ## ASSERTIONS
 ##############################
@@ -68,8 +73,6 @@ if [ ! -d "$INSTALL_DIR" ]; then
   exit 1
 fi
 
-FILE_NAME=$( readlink -f $1 )
-
 if [ ! -f "$FILE_NAME" ]; then
   echo "${0}: error: $FILE_NAME not found ..."
   exit 1
@@ -80,21 +83,16 @@ fi
 ##############################
 
 
-BASE_NAME=$( basename ${FILE_NAME%%.*} )
-PROG_NAME=${PROG_NAME:-$BASE_NAME}
 
 TARGET="$INSTALL_DIR"/$PROG_NAME
 
 # Check for existing file
 if [ -f "$TARGET" ]; then
-  target_exists=1
-else
-  target_exists=0
+  target_exists=y
 fi
 
-overwrite=y
-if [ $target_exists -eq 1 ]; then
-  read -p "Target already exists. Overwrite? (y/n) [n]: " overwrite
+if [ "$target_exists" == "y" ]; then
+  read -p "$PROG_NAME already exists. Overwrite? (y/n) [n]: " overwrite
 fi
 
 if [ "$overwrite" != "y" ]; then
@@ -103,19 +101,17 @@ if [ "$overwrite" != "y" ]; then
 fi
 
 # Install and save whether it was success
-successful_install=0
-if [ "$COPY" == "true" ]; then
-  if cp "$FILE_NAME" "$TARGET".new; then successful_install=1; fi
+if [ "$COPY" == "y" ]; then
+  if cp "$FILE_NAME" "$TARGET".new; then successful_install=y; fi
 else
-  if ln -s "$FILE_NAME" "$TARGET".new; then successful_install=1; fi
+  if ln -s "$FILE_NAME" "$TARGET".new; then successful_install=y; fi
 fi
 
-if [ $successful_install -eq 1 ]; then
+if [ "$successful_install" == "y" ]; then
   echo "Successfully installed ${PROG_NAME}!"
   mv "$TARGET".new "$TARGET"
-  exit_code=0
 else
-  echo "${0}: error: failed to install target ..."
+  echo "${0}: error: failed to install $PROG_NAME ..."
   rm -f "$TARGET".new
   exit 1
 fi
