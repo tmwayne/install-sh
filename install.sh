@@ -21,7 +21,7 @@ Help() {
   echo "  -h, --help                Print this help."
   echo "  -i, --install-dir=DIR     Directory program is installed in."
   echo "                            Defaults to ~/.local/bin"
-  echo "  -p, --prog-name=NAME      Name to install program as."
+  echo "  -n, --name=NAME           Name to install program as."
   echo "                            Defaults to base name of file_name."
 }
 
@@ -37,7 +37,7 @@ for arg in "$@"; do
     --help)         set -- "$@" "-h" ;;
     --copy)         set -- "$@" "-c" ;;
     --install-dir)  set -- "$@" "-i" ;;
-    --prog-name)    set -- "$@" "-p" ;;
+    --name)         set -- "$@" "-n" ;;
     --*)            echo "$THIS_PROG: unrecognized option '$arg'" >&2
                     echo "Try '$THIS_PROG --help' for more information."
                     exit 2 ;;
@@ -52,7 +52,7 @@ while getopts ":hcf:i:p:" opt; do
     h) Help; exit 0 ;;
     c) COPY=y ;;
     i) INSTALL_DIR=$( readlink -f $OPTARG ) ;;
-    p) PROG_NAME=$OPTARG ;;
+    n) PROG_NAME=$OPTARG ;;
     \?) echo "$THIS_PROG: unrecognized option '-$OPTARG'" >&2
         echo "Try '$THIS_PROG --help' for more information."
         exit 2 ;;
