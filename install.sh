@@ -48,7 +48,7 @@ done
 OPTIND=1
 while getopts ":hcf:i:p:" opt; do
   case $opt in
-    h) Help; exit ;;
+    h) Help; exit 0 ;;
     c) COPY=y ;;
     i) INSTALL_DIR=$( readlink -f $OPTARG ) ;;
     p) PROG_NAME=$OPTARG ;;
