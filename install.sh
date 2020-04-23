@@ -16,9 +16,10 @@ Help() {
   echo $USAGE
   echo
   echo "Options:"
-  echo "  -h, --help                Print this help."
   echo "  -c, --copy                Install a copy instead of a symlink."
+  echo "  -h, --help                Print this help."
   echo "  -i, --install-dir=DIR     Directory program is installed in."
+  echo "                            Defaults to ~/.local/bin"
   echo "  -p, --prog-name=NAME      Name to install program as."
   echo
   echo "  file_name                 Name of file to install"

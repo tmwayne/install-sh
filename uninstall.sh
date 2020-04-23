@@ -18,6 +18,7 @@ Help() {
   echo "Options:"
   echo "  -h, --help                Print this help."
   echo "  -i, --install-dir=DIR     Directory program is installed in."
+  echo "                            Defaults to ~/.local/bin"
   echo
   echo "  prog_name                 Name of file to uninstall"
 }
