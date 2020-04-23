@@ -65,7 +65,7 @@ if [ $# -lt 1 ]; then
 fi
 
 if [ ! -f "$TARGET" ]; then
-  echo "${0}: error: $PROG_NAME not found in $INSTALL_DIR ..." >&2
+  echo "$THIS_PROG: error: $PROG_NAME not found in $INSTALL_DIR ..." >&2
   exit 1
 fi
 
@@ -73,7 +73,7 @@ fi
 ########################################
 
 if rm -f "$TARGET"; then
-  echo "Successfully uninstalled ${PROG_NAME}!"
+  echo "Successfully uninstalled $PROG_NAME!"
 else
-  echo "$0: error: unable to uninstall $PROG_NAME ..." >&2
+  echo "$THIS_PROG: error: unable to uninstall $PROG_NAME ..." >&2
 fi

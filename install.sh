@@ -60,12 +60,13 @@ while getopts ":hcf:i:p:" opt; do
 done
 shift $((OPTIND-1))
 
-FILE_NAME=$( readlink -f "$1" )
+FILE_NAME=$( readlink -fq "$1" )
 
 BASE_NAME=$( basename "${FILE_NAME%%.*}" )
 PROG_NAME=${PROG_NAME:-$BASE_NAME}
 
 TARGET="$INSTALL_DIR"/$PROG_NAME
+TMP="$TARGET".tmp
 
 ## ASSERTIONS
 ##############################
@@ -94,28 +95,32 @@ if [ -f "$TARGET" ]; then
   target_exists=y
 fi
 
-if [ "$target_exists" == "y" ]; then
+if [ "$target_exists" == y ]; then
   read -p "$PROG_NAME already exists. Overwrite? (y/n) [n]: " overwrite
 fi
 
-if [ "$overwrite" != "y" ]; then
+if [ "$target_exists" == y ] && [ "$overwrite" != y ]; then
   echo "$THIS_PROG: error: aborting without overwriting ..." >&2
   exit 1
 fi
 
 # Install and save whether it was success
-if [ "$COPY" == "y" ]; then
-  if cp "$FILE_NAME" "$TARGET".new; then successful_install=y; fi
+if [ "$COPY" == y ]; then
+  if cp "$FILE_NAME" "$TMP"; then successful_install=y; fi
 else
-  if ln -s "$FILE_NAME" "$TARGET".new; then successful_install=y; fi
+  ## ln returns an exit code of 0 even if the link it creates is broken
+  ## we ensure that the link it create works
+  if ln -s "$FILE_NAME" "$TMP" && readlink -fq "$TMP" > /dev/null 2>&1; then
+    successful_install=y;
+  fi
 fi
 
-if [ "$successful_install" == "y" ]; then
+if [ "$successful_install" == y ]; then
   echo "Successfully installed ${PROG_NAME}!"
-  mv "$TARGET".new "$TARGET"
+  mv "$TMP" "$TARGET"
 else
   echo "$THIS_PROG: error: failed to install $PROG_NAME ..." >&2
-  rm -f "$TARGET".new
+  rm -f "$TMP"
   exit 1
 fi
 
