@@ -1,4 +1,12 @@
 #!/bin/bash
+#
+# Uninstall-sh
+#
+# Uninstall shell scripts
+# Companion script to install-sh
+#
+# Tyler Wayne 2020
+#
 
 THIS_PROG=$( basename $0 )
 USAGE="Usage: $THIS_PROG [-i install_dir] prog_name"
@@ -12,7 +20,6 @@ Help() {
   echo "  -i install_dir      Directory program is installed in."
   echo
   echo "     prog_name        Name of file to uninstall"
-  echo
 }
 
 ## ARGUMENTS

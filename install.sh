@@ -1,4 +1,12 @@
 #!/bin/bash
+#
+# Install-sh
+#
+# Install shell scripts easily into a local bin folder.
+# Can install via both hard copy and symlink
+#
+# Tyler Wayne 2020
+#
 
 THIS_PROG=$( basename $0 )
 USAGE="Usage: $THIS_PROG [-i install_dir] [-p prog_name] file_name"
@@ -14,7 +22,6 @@ Help() {
   echo "  -p, --prog-name=NAME      Name to install program as."
   echo
   echo "  file_name                 Name of file to install"
-  echo
 }
 
 ## ARGUMENTS
@@ -97,7 +104,7 @@ if [ "$overwrite" != "y" ]; then
   exit 1
 fi
 
-# Install
+# Install and save whether it was success
 successful_install=0
 if [ "$COPY" == "true" ]; then
   if cp "$FILE_NAME" "$TARGET".new; then successful_install=1; fi
