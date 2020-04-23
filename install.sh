@@ -51,7 +51,7 @@ while getopts ":hcf:i:p:" opt; do
   case $opt in
     h) Help; exit 0 ;;
     c) COPY=y ;;
-    i) INSTALL_DIR=$( readlink -f $OPTARG ) ;;
+    i) INSTALL_DIR=$( realpath $OPTARG ) ;;
     n) PROG_NAME=$OPTARG ;;
     \?) echo "$THIS_PROG: unrecognized option '-$OPTARG'" >&2
         echo "Try '$THIS_PROG --help' for more information."
@@ -60,7 +60,7 @@ while getopts ":hcf:i:p:" opt; do
 done
 shift $((OPTIND-1))
 
-FILE_NAME=$( readlink -fq "$1" )
+FILE_NAME=$( realpath -q "$1" )
 
 BASE_NAME=$( basename "${FILE_NAME%%.*}" )
 PROG_NAME=${PROG_NAME:-$BASE_NAME}
@@ -110,7 +110,7 @@ if [ "$COPY" == y ]; then
 else
   ## ln returns an exit code of 0 even if the link it creates is broken
   ## we ensure that the link it create works
-  if ln -s "$FILE_NAME" "$TMP" && readlink -fq "$TMP" > /dev/null 2>&1; then
+  if ln -s "$FILE_NAME" "$TMP" && realpath "$TMP" > /dev/null 2>&1; then
     successful_install=y;
   fi
 fi

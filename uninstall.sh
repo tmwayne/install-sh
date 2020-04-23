@@ -45,7 +45,7 @@ OPTIND=1
 while getopts ":hcf:i:p:" opt; do
   case $opt in
     h) Help; exit 0 ;;
-    i) INSTALL_DIR=$( readlink -f $OPTARG ) ;;
+    i) INSTALL_DIR=$( realpath $OPTARG ) ;;
     \?) echo "$THIS_PROG: unrecognized option '-$OPTARG'" >&2
         echo "Try '$THIS_PROG --help' for more information."
         exit 2 ;;
