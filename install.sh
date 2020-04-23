@@ -65,6 +65,8 @@ FILE_NAME=$( readlink -f "$1" )
 BASE_NAME=$( basename "${FILE_NAME%%.*}" )
 PROG_NAME=${PROG_NAME:-$BASE_NAME}
 
+TARGET="$INSTALL_DIR"/$PROG_NAME
+
 ## ASSERTIONS
 ##############################
 
@@ -86,10 +88,6 @@ fi
 
 ## MAIN
 ##############################
-
-
-
-TARGET="$INSTALL_DIR"/$PROG_NAME
 
 # Check for existing file
 if [ -f "$TARGET" ]; then
