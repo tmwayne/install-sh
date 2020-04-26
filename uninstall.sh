@@ -64,11 +64,6 @@ if [ $# -lt 1 ]; then
   exit 1
 fi
 
-if [ ! -f "$TARGET" ]; then
-  echo "$THIS_PROG: error: $PROG_NAME not found in $INSTALL_DIR ..." >&2
-  exit 1
-fi
-
 ## MAIN
 ########################################
 

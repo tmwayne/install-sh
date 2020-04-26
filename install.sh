@@ -9,7 +9,7 @@
 #
 
 THIS_PROG=$( basename $0 )
-USAGE="Usage: $THIS_PROG [-i install_dir] [-p prog_name] file_name"
+USAGE="Usage: $THIS_PROG [-i install_dir] [-n prog_name] file_name"
 
 Help() {
   # Function to display help at command line
@@ -47,7 +47,7 @@ done
 
 # Command-line arguments
 OPTIND=1
-while getopts ":hcf:i:p:" opt; do
+while getopts ":hcf:i:n:" opt; do
   case $opt in
     h) Help; exit 0 ;;
     c) COPY=y ;;
