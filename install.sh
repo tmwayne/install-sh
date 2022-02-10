@@ -11,20 +11,17 @@
 THIS_PROG=$( basename $0 )
 USAGE="Usage: $THIS_PROG [-f] [-i install_dir] [-n prog_name] file_name"
 
-Help() {
-  # Function to display help at command line
-  echo $USAGE
-  echo "Installs program into local bin directory as copy or symlink."
-  echo
-  echo "Options:"
-  echo "  -c, --copy                Install a copy instead of a symlink."
-  echo "  -h, --help                Print this help."
-  echo "  -i, --install-dir=DIR     Directory program is installed in."
-  echo "  -f, --force               Force overwrite if already exists."
-  echo "                            Defaults to ~/.local/bin"
-  echo "  -n, --name=NAME           Name to install program as."
-  echo "                            Defaults to base name of file_name."
-}
+help="$USAGE
+Installs program into local bin directory as copy or symlink.
+
+Options:
+  -c, --copy                Install a copy instead of a symlink.
+  -h, --help                Print this help.
+  -i, --install-dir=DIR     Directory program is installed in.
+  -f, --force               Force overwrite if already exists.
+                            Defaults to ~/.local/bin
+  -n, --name=NAME           Name to install program as.
+"
 
 ## ARGUMENTS
 ##############################
@@ -51,7 +48,7 @@ done
 OPTIND=1
 while getopts ":hcfi:n:" opt; do
   case $opt in
-    h) Help; exit 0 ;;
+    h) echo -e "$help"; exit 0 ;;
     c) COPY=y ;;
     i) INSTALL_DIR=$( realpath $OPTARG ) ;;
     n) PROG_NAME=$OPTARG ;;

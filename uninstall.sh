@@ -11,16 +11,14 @@
 THIS_PROG=$( basename $0 )
 USAGE="Usage: $THIS_PROG [-i install_dir] prog_name"
 
-Help() {
-  # Function to display help at command line
-  echo $USAGE
-  echo "Uninstalls program from local bin directory."
-  echo
-  echo "Options:"
-  echo "  -h, --help                Print this help."
-  echo "  -i, --install-dir=DIR     Directory program is installed in."
-  echo "                            Defaults to ~/.local/bin"
-}
+help="$USAGE
+Uninstalls program from local bin directory.
+
+Options:
+  -h, --help                Print this help.
+  -i, --install-dir=DIR     Directory program is installed in.
+                            Defaults to ~/.local/bin
+"
 
 ## ARGUMENTS
 ########################################
@@ -44,7 +42,7 @@ done
 OPTIND=1
 while getopts ":hi:" opt; do
   case $opt in
-    h) Help; exit 0 ;;
+    h) echo -e "$help"; exit 0 ;;
     i) INSTALL_DIR=$( realpath $OPTARG ) ;;
     \?) echo "$THIS_PROG: unrecognized option '-$OPTARG'" >&2
         echo "Try '$THIS_PROG --help' for more information."
