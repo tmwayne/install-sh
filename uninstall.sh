@@ -42,7 +42,7 @@ done
 
 # Command-line arguments
 OPTIND=1
-while getopts ":hcf:i:p:" opt; do
+while getopts ":hi:" opt; do
   case $opt in
     h) Help; exit 0 ;;
     i) INSTALL_DIR=$( realpath $OPTARG ) ;;

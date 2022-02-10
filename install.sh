@@ -9,7 +9,7 @@
 #
 
 THIS_PROG=$( basename $0 )
-USAGE="Usage: $THIS_PROG [-i install_dir] [-n prog_name] file_name"
+USAGE="Usage: $THIS_PROG [-f] [-i install_dir] [-n prog_name] file_name"
 
 Help() {
   # Function to display help at command line
@@ -20,6 +20,7 @@ Help() {
   echo "  -c, --copy                Install a copy instead of a symlink."
   echo "  -h, --help                Print this help."
   echo "  -i, --install-dir=DIR     Directory program is installed in."
+  echo "  -f, --force               Force overwrite if already exists."
   echo "                            Defaults to ~/.local/bin"
   echo "  -n, --name=NAME           Name to install program as."
   echo "                            Defaults to base name of file_name."
@@ -37,6 +38,7 @@ for arg in "$@"; do
     --help)         set -- "$@" "-h" ;;
     --copy)         set -- "$@" "-c" ;;
     --install-dir)  set -- "$@" "-i" ;;
+    --force)        set -- "$@" "-f" ;;
     --name)         set -- "$@" "-n" ;;
     --*)            echo "$THIS_PROG: unrecognized option '$arg'" >&2
                     echo "Try '$THIS_PROG --help' for more information."
@@ -47,12 +49,13 @@ done
 
 # Command-line arguments
 OPTIND=1
-while getopts ":hcf:i:n:" opt; do
+while getopts ":hcfi:n:" opt; do
   case $opt in
     h) Help; exit 0 ;;
     c) COPY=y ;;
     i) INSTALL_DIR=$( realpath $OPTARG ) ;;
     n) PROG_NAME=$OPTARG ;;
+    f) FORCE=y ;;
     \?) echo "$THIS_PROG: unrecognized option '-$OPTARG'" >&2
         echo "Try '$THIS_PROG --help' for more information."
         exit 2 ;;
@@ -95,7 +98,9 @@ if [ -f "$TARGET" ]; then
   target_exists=y
 fi
 
-if [ "$target_exists" == y ]; then
+if [ "$FORCE" == y ]; then
+  overwrite=y
+elif [ "$target_exists" == y ]; then
   read -p "$PROG_NAME already exists. Overwrite? (y/n) [n]: " overwrite
 fi
 
